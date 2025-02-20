@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecretMenu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">SecretMenu</div>
+        <div class="header-icons">
+            <button class="search-btn">🔍</button>
+            <button class="profile-btn">👤</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="mainContent">
+            <h1>Secret Menu Masters</h1>
+            
+            <!-- Restaurant Cards Carousel -->
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" onclick="prevSlide()">❮</button>
+                <div class="featured-cards">
+                    <!-- Restaurant cards will be added here -->
+                </div>
+                <button class="carousel-btn next-btn" onclick="nextSlide()">❯</button>
+            </div>
+
+            <p>Beta Version 1.0.0</p>
+            <div class="trending-cards">
+                <!-- Trending items will be added here -->
+            </div>
+        </div>
+
+        <div id="communityContent" style="display: none;">
+            <h1>Community Finds</h1>
+            <button class="add-find-btn">+ Share Your Find</button>
+            
+            <div class="community-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="new">New</button>
+            </div>
+
+            <div class="community-grid">
+                <!-- Community posts will be added here by JavaScript -->
+            </div>
+        </div>
+
+        <div id="newFindModal" class="modal">
+            <div class="modal-content">
+                <h2>Share Your Secret Menu Find</h2>
+                <form id="newFindForm">
+                    <div class="form-group">
+                        <label>Restaurant</label>
+                        <select name="restaurant" required>
+                            <option value="">Select Restaurant</option>
+                        </select>
+                        <div class="custom-restaurant" style="display: none;">
+                            <input type="text" name="custom-restaurant" placeholder="Enter restaurant name">
+                        </div>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="other-restaurant"> 
+                            Restaurant not in the list?
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" name="itemName" required placeholder="What's it called?">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" required placeholder="How do you order it? What's in it?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo">Upload Photo of the Item</label>
+                        <input type="file" id="photo" name="photo" accept="image/*" required>
+                        <div class="image-preview"></div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="submit-btn">Share Find</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="libraryContent" style="display: none;">
+            <h1>My Library</h1>
+            <div class="library-cards">
+                <!-- Saved restaurants will appear here -->
+            </div>
+        </div>
+
+        <div id="menuContent" style="display: none;">
+            <button class="back-btn" onclick="showMainContent()">← Back</button>
+            <div class="menu-details">
+                <!-- Restaurant menu details will appear here -->
+            </div>
+        </div>
+    </main>
+
+    <div id="searchModal" class="modal">
+        <div class="modal-content">
+            <input type="text" placeholder="Search restaurants..." class="search-input">
+            <div class="search-results">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content auth-content">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <form id="signupForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <nav class="bottom-nav">
+            <a href="#" class="active" onclick="showMainContent()">
+                <span class="icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="#" onclick="showCommunity()">
+                <span class="icon">👥</span>
+                <span>Community</span>
+            </a>
+            <a href="#" onclick="showLibrary()">
+                <span class="icon">📚</span>
+                <span>Library</span>
+            </a>
+        </nav>
+    </footer>
+
+    <script src="renderer.js"></script>
+</body>
+</html> 
