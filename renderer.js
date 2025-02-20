@@ -72,6 +72,8 @@ function createRestaurantCards() {
         const card = document.createElement('div');
         card.className = 'restaurant-card';
         
+        const safeName = restaurant.name.replace(/'/g, "\\'");
+        
         card.innerHTML = `
             <div class="restaurant-logo">
                 <img src="${restaurantLogos[restaurant.name]}" alt="${restaurant.name} logo">
@@ -83,6 +85,10 @@ function createRestaurantCards() {
                 <ul>
                     ${restaurant.secretItems.map(item => `<li>${item.split('(')[0]}</li>`).join('')}
                 </ul>
+            </div>
+            <div class="card-buttons">
+                <button class="view-btn" onclick="showMenu('${safeName}')">View Menu</button>
+                <button class="add-btn" onclick="addToLibrary('${safeName}')">+ My List</button>
             </div>
         `;
         

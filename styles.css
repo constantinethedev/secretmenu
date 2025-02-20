@@ -200,4 +200,44 @@ main > p {
     h1 {
         font-size: 2rem;
     }
+}
+
+/* Add these button styles */
+.card-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.view-btn, .add-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    flex: 2;
+}
+
+.add-btn {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    flex: 1;
+}
+
+/* Make sure carousel only shows in main content */
+#libraryContent .featured-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+#libraryContent .restaurant-card {
+    min-width: unset;
 } 
