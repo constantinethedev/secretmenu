@@ -59,6 +59,9 @@ let currentSlide = 0;
 // Library functionality
 let myLibrary = [];
 
+// Add at the top with other state variables
+let currentUser = null;
+
 function addToLibrary(restaurantName) {
     if (!myLibrary.includes(restaurantName)) {
         myLibrary.push(restaurantName);
@@ -169,32 +172,116 @@ function showNotification(message) {
     setTimeout(() => notification.remove(), 3000);
 }
 
-// Initialize
+// Add these auth functions
+function showAuthModal() {
+    document.getElementById('authModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function hideAuthModal() {
+    document.getElementById('authModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Update the initialization code
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if user is already logged in
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showApp();
+    } else {
+        showAuthModal();
+    }
+
     // Load saved library
     const savedLibrary = localStorage.getItem('myLibrary');
     if (savedLibrary) {
         myLibrary = JSON.parse(savedLibrary);
     }
 
+    // Auth tab switching
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const isLogin = tab.dataset.tab === 'login';
+            document.getElementById('loginForm').style.display = isLogin ? 'flex' : 'none';
+            document.getElementById('signupForm').style.display = isLogin ? 'none' : 'flex';
+        });
+    });
+
+    // Handle login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        // Simple validation - in real app, you'd verify against a backend
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            hideAuthModal();
+            showApp();
+            showNotification('Welcome back!');
+        } else {
+            showNotification('Invalid email or password');
+        }
+    });
+
+    // Handle signup
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const username = form.username.value;
+
+        // Simple validation - in real app, you'd use a backend
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.some(u => u.email === email)) {
+            showNotification('Email already exists');
+            return;
+        }
+
+        const newUser = { email, password, username };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        currentUser = newUser;
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        
+        hideAuthModal();
+        showApp();
+        showNotification('Account created successfully!');
+    });
+
+    // Handle logout
+    document.querySelector('.profile-btn').addEventListener('click', () => {
+        localStorage.removeItem('currentUser');
+        currentUser = null;
+        showAuthModal();
+    });
+
     createRestaurantCards();
     showMainContent();
-
-    // Show login modal on startup
-    document.getElementById('loginModal').style.display = 'flex';
 });
 
-// Handle login
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    // For now, just close the modal and show the app
-    document.getElementById('loginModal').style.display = 'none';
+function showApp() {
+    hideAuthModal();
+    createRestaurantCards();
     showMainContent();
-});
+    updateProfileUI();
+}
 
-function skipLogin() {
-    document.getElementById('loginModal').style.display = 'none';
-    showMainContent();
+function updateProfileUI() {
+    const profileBtn = document.querySelector('.profile-btn');
+    profileBtn.textContent = currentUser ? '👤' : '👤';
 }
 
 // Make sure all your functions are defined here

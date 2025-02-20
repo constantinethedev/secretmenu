@@ -7,7 +7,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">SecretMenu</div>
+        <div class="logo">SECRETMENU</div>
         <div class="header-icons">
             <button class="search-btn">🔍</button>
             <button class="profile-btn">👤</button>
@@ -15,51 +15,89 @@
     </header>
 
     <main>
+        <!-- Main Content -->
         <div id="mainContent">
             <h1>Secret Menu Masters</h1>
-            
-            <!-- Restaurant Cards Carousel -->
             <div class="carousel-container">
                 <button class="carousel-btn prev-btn" onclick="prevSlide()">❮</button>
-                <div class="featured-cards">
-                    <!-- Restaurant cards will be added here -->
-                </div>
+                <div class="featured-cards"></div>
                 <button class="carousel-btn next-btn" onclick="nextSlide()">❯</button>
             </div>
-
             <p>Beta Version 1.0.0</p>
-            <div class="trending-cards">
-                <!-- Trending items will be added here -->
-            </div>
         </div>
 
-        <div id="communityContent" style="display: none;">
-            <!-- Community content -->
-        </div>
-
+        <!-- Library Content -->
         <div id="libraryContent" style="display: none;">
-            <!-- Library content -->
+            <h1>My Library</h1>
+            <div class="library-cards"></div>
+        </div>
+
+        <!-- Menu Content -->
+        <div id="menuContent" style="display: none;">
+            <div class="menu-details"></div>
+        </div>
+
+        <!-- Community Content -->
+        <div id="communityContent" style="display: none;">
+            <h1>Community</h1>
+            <p>Coming Soon!</p>
         </div>
     </main>
 
     <footer>
         <nav class="bottom-nav">
-            <a href="#" class="active" onclick="showMainContent()">
+            <a href="#" onclick="showMainContent(); return false;" class="active">
                 <span class="icon">🏠</span>
                 <span>Home</span>
             </a>
-            <a href="#" onclick="showCommunity()">
+            <a href="#" onclick="showCommunity(); return false;">
                 <span class="icon">👥</span>
                 <span>Community</span>
             </a>
-            <a href="#" onclick="showLibrary()">
+            <a href="#" onclick="showLibrary(); return false;">
                 <span class="icon">📚</span>
                 <span>Library</span>
             </a>
         </nav>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <form id="signupForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
     <script src="renderer.js"></script>
 </body>
 </html> 
