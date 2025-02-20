@@ -56,11 +56,129 @@ const restaurantLogos = {
 
 let currentSlide = 0;
 
+// Library functionality
+let myLibrary = [];
+
+function addToLibrary(restaurantName) {
+    if (!myLibrary.includes(restaurantName)) {
+        myLibrary.push(restaurantName);
+        localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+        showNotification('Added to My List');
+    }
+}
+
+function removeFromLibrary(restaurantName) {
+    myLibrary = myLibrary.filter(name => name !== restaurantName);
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    renderLibrary();
+    showNotification('Removed from My List');
+}
+
+function renderLibrary() {
+    const container = document.querySelector('.library-cards');
+    container.innerHTML = '';
+    
+    myLibrary.forEach(restaurantName => {
+        const restaurant = restaurants.find(r => r.name === restaurantName);
+        if (restaurant) {
+            const card = document.createElement('div');
+            card.className = 'restaurant-card';
+            card.innerHTML = `
+                <div class="restaurant-logo">
+                    <img src="${restaurantLogos[restaurant.name]}" alt="${restaurant.name} logo">
+                </div>
+                <h2>${restaurant.name}</h2>
+                <p>${restaurant.description}</p>
+                <div class="secret-items">
+                    <h3>Secret Menu Items:</h3>
+                    <ul>
+                        ${restaurant.secretItems.map(item => `<li>${item.split('(')[0]}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="card-buttons">
+                    <button class="view-btn" onclick="showMenu('${restaurant.name}')">View Menu</button>
+                    <button class="remove-btn" onclick="removeFromLibrary('${restaurant.name}')">Remove</button>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+    });
+}
+
+// Menu functionality
+function showMenu(restaurantName) {
+    const restaurant = restaurants.find(r => r.name === restaurantName);
+    if (!restaurant) return;
+
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('libraryContent').style.display = 'none';
+    document.getElementById('menuContent').style.display = 'block';
+
+    const menuDetails = document.querySelector('.menu-details');
+    menuDetails.innerHTML = `
+        <button class="back-btn" onclick="showMainContent()">← Back</button>
+        <div class="restaurant-header">
+            <div class="restaurant-logo">
+                <img src="${restaurantLogos[restaurant.name]}" alt="${restaurant.name}">
+            </div>
+            <h2>${restaurant.name}</h2>
+            <p>${restaurant.description}</p>
+        </div>
+        <div class="menu-items">
+            ${restaurant.secretItems.map(item => `
+                <div class="menu-item">
+                    <h3>${item.split('(')[0]}</h3>
+                    <p>${item.match(/\((.*?)\)/)?.[1] || ''}</p>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// Navigation functions
+function showLibrary() {
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('communityContent').style.display = 'none';
+    document.getElementById('menuContent').style.display = 'none';
+    document.getElementById('libraryContent').style.display = 'block';
+    updateNavigation('library');
+    renderLibrary();
+}
+
+function showCommunity() {
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('libraryContent').style.display = 'none';
+    document.getElementById('menuContent').style.display = 'none';
+    document.getElementById('communityContent').style.display = 'block';
+    updateNavigation('community');
+}
+
+function updateNavigation(active) {
+    document.querySelectorAll('.bottom-nav a').forEach(link => {
+        link.classList.remove('active');
+    });
+    document.querySelector(`.bottom-nav a[onclick*="${active}"]`)?.classList.add('active');
+}
+
+// Utility functions
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+}
+
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded');
+    // Load saved library
+    const savedLibrary = localStorage.getItem('myLibrary');
+    if (savedLibrary) {
+        myLibrary = JSON.parse(savedLibrary);
+    }
+
     createRestaurantCards();
     showMainContent();
-    // ... rest of your initialization code
 });
 
 // Make sure all your functions are defined here
