@@ -179,7 +179,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createRestaurantCards();
     showMainContent();
+
+    // Show login modal on startup
+    document.getElementById('loginModal').style.display = 'flex';
 });
+
+// Handle login
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // For now, just close the modal and show the app
+    document.getElementById('loginModal').style.display = 'none';
+    showMainContent();
+});
+
+function skipLogin() {
+    document.getElementById('loginModal').style.display = 'none';
+    showMainContent();
+}
 
 // Make sure all your functions are defined here
 function createRestaurantCards() {
@@ -218,8 +234,17 @@ function createRestaurantCards() {
 
 function showMainContent() {
     document.getElementById('mainContent').style.display = 'block';
-    document.getElementById('communityContent').style.display = 'none';
     document.getElementById('libraryContent').style.display = 'none';
+    document.getElementById('menuContent').style.display = 'none';
+    document.getElementById('communityContent').style.display = 'none';
+    
+    // Update navigation
+    document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.remove('active'));
+    document.querySelector('.bottom-nav a:first-child').classList.add('active');
+    
+    // Reset carousel
+    currentSlide = 0;
+    updateCarouselPosition();
 }
 
 function updateCarouselPosition() {
