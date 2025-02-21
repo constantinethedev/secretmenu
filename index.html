@@ -1,16 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SecretMenu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover secret menu items from your favorite restaurants">
+    <title>SecretMenu - Hidden Menu Items</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <div class="logo">SECRETMENU</div>
         <div class="header-icons">
-            <button class="search-btn">🔍</button>
-            <button class="profile-btn">👤</button>
+            <button class="search-btn" title="Search">🔍</button>
+            <button class="profile-btn" title="Profile">👤</button>
         </div>
     </header>
 
@@ -18,12 +28,13 @@
         <!-- Main Content -->
         <div id="mainContent">
             <h1>Secret Menu Masters</h1>
+            <p class="subtitle">Unlock hidden menu items at your favorite restaurants</p>
+            
             <div class="carousel-container">
                 <button class="carousel-btn prev-btn" onclick="prevSlide()">❮</button>
                 <div class="featured-cards"></div>
                 <button class="carousel-btn next-btn" onclick="nextSlide()">❯</button>
             </div>
-            <p>Beta Version 1.0.0</p>
         </div>
 
         <!-- Library Content -->
@@ -38,66 +49,51 @@
         </div>
 
         <!-- Community Content -->
-        <div id="communityContent" style="display: none;">
-            <h1>Community</h1>
-            <p>Coming Soon!</p>
+        <div id="communityContent" style="display: none;"></div>
+
+        <!-- Auth Modal -->
+        <div id="authModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Login</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                
+                <form id="loginForm" class="auth-form">
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+
+                <form id="signupForm" class="auth-form" style="display: none;">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
         </div>
     </main>
 
     <footer>
         <nav class="bottom-nav">
-            <a href="#" onclick="showMainContent(); return false;" class="active">
-                <span class="icon">🏠</span>
+            <a onclick="showMainContent()" class="active">
+                <span class="nav-icon">🏠</span>
                 <span>Home</span>
             </a>
-            <a href="#" onclick="showCommunity(); return false;">
-                <span class="icon">👥</span>
-                <span>Community</span>
-            </a>
-            <a href="#" onclick="showLibrary(); return false;">
-                <span class="icon">📚</span>
+            <a onclick="showLibrary()">
+                <span class="nav-icon">📚</span>
                 <span>Library</span>
+            </a>
+            <a onclick="showCommunity()">
+                <span class="nav-icon">👥</span>
+                <span>Community</span>
             </a>
         </nav>
     </footer>
 
-    <div id="authModal" class="modal">
-        <div class="modal-content">
-            <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login">Login</button>
-                <button class="auth-tab" data-tab="signup">Sign Up</button>
-            </div>
-
-            <form id="loginForm" class="auth-form">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" required>
-                </div>
-                <button type="submit" class="submit-btn">Login</button>
-            </form>
-
-            <form id="signupForm" class="auth-form" style="display: none;">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" required minlength="6">
-                </div>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" required>
-                </div>
-                <button type="submit" class="submit-btn">Sign Up</button>
-            </form>
-        </div>
-    </div>
-
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="renderer.js"></script>
 </body>
 </html> 

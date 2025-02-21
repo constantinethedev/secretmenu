@@ -1,4 +1,17 @@
-const { supabase } = require('./src/supabaseConfig');
+// Remove Electron-specific code
+// const { supabase } = require('./src/supabaseConfig');
+
+// Instead, create Supabase client directly
+const supabase = supabase.createClient(
+    'https://nkhexyljsfxmhhpfusko.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5raGV4eWxqc2Z4bWhocGZ1c2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNDg5MTksImV4cCI6MjA1NTYyNDkxOX0.Pg_9Hrzsb6fSpiP0ft8R9XxWptvWJ-RIzVaTYucRESk', 
+    {
+        auth: {
+            persistSession: true,
+            storage: window.localStorage // Use browser's localStorage
+        }
+    }
+);
 
 const restaurants = [
     {
@@ -191,6 +204,7 @@ function showLibrary() {
     document.getElementById('libraryContent').style.display = 'block';
     updateNavigation('library');
     renderLibrary();
+    history.pushState({page: 'library'}, '', '/library');
 }
 
 function showCommunity() {
@@ -200,6 +214,7 @@ function showCommunity() {
     document.getElementById('communityContent').style.display = 'block';
     updateNavigation('community');
     loadCommunityFinds();
+    history.pushState({page: 'community'}, '', '/community');
 }
 
 function updateNavigation(active) {
@@ -425,6 +440,7 @@ function showMainContent() {
     // Reset carousel
     currentSlide = 0;
     updateCarouselPosition();
+    history.pushState({page: 'main'}, '', '/');
 }
 
 function updateCarouselPosition() {
@@ -463,6 +479,11 @@ async function submitCommunityFind(restaurantName, menuItem, imageFile) {
     }
 
     try {
+        // Add loading state
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Uploading...';
+
         // First check session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         if (sessionError || !session) {
@@ -509,6 +530,9 @@ async function submitCommunityFind(restaurantName, menuItem, imageFile) {
 
         showNotification('Thanks for sharing your find!');
         loadCommunityFinds();
+
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Share Find';
     } catch (error) {
         console.error('Operation failed:', error);
         showNotification(error.message || 'Failed to submit find');
@@ -630,4 +654,21 @@ function renderCommunityFinds() {
             preview.innerHTML = '';
         });
     }
-} 
+}
+
+// Add browser-specific navigation
+window.onpopstate = function(event) {
+    if (event.state) {
+        switch(event.state.page) {
+            case 'main':
+                showMainContent();
+                break;
+            case 'library':
+                showLibrary();
+                break;
+            case 'community':
+                showCommunity();
+                break;
+        }
+    }
+}; 
