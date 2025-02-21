@@ -1,3 +1,4 @@
+/* Base styles */
 :root {
     --primary-color: #E31937;
     --background-color: #000000;
@@ -18,6 +19,7 @@ body {
     color: var(--text-color);
 }
 
+/* Layout */
 header {
     display: flex;
     justify-content: space-between;
@@ -93,6 +95,7 @@ h1 {
     transition: transform 0.5s ease;
 }
 
+/* Restaurant Cards */
 .restaurant-card {
     min-width: calc((100% - 4rem) / 3);
     flex-shrink: 0;
@@ -268,9 +271,10 @@ main > p {
     margin-bottom: 2rem;
 }
 
+/* Menu Items */
 .menu-items {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -279,6 +283,22 @@ main > p {
     background: #111111;
     padding: 1.5rem;
     border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+}
+
+.menu-item h3 {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.menu-item p {
+    color: #888;
+    font-size: 0.9rem;
 }
 
 .remove-btn {
@@ -301,6 +321,7 @@ main > p {
     gap: 2rem;
 }
 
+/* Auth Modal */
 .modal {
     position: fixed;
     top: 0;
@@ -411,4 +432,252 @@ main > p {
     color: white;
     font-size: 0.9rem;
     margin-right: 1rem;
+}
+
+/* Community Section */
+.community-form {
+    background: #111111;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.find-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.find-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.8rem;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+}
+
+.community-finds {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.find-card {
+    background: #111111;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.find-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.find-card h4 {
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.find-meta {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 0.8rem;
+}
+
+/* Update community styles */
+.find-form .file-preview {
+    margin-top: 1rem;
+    max-width: 300px;
+}
+
+.find-form .file-preview img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.proof-image {
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.proof-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Style file input */
+.find-form input[type="file"] {
+    width: 100%;
+    padding: 0.8rem;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.find-form input[type="file"]::file-selector-button {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.more-items {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.menu-items h3 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.restaurant-icon {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.icon-large {
+    font-size: 4rem;
+}
+
+.menu-notice {
+    background: #333;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+.menu-notice p {
+    color: #fff;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.disclaimer {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(17, 17, 17, 0.95);
+    padding: 1.5rem;
+    border-left: 4px solid var(--primary-color);
+    color: #888;
+    font-size: 0.9rem;
+    max-width: 300px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    z-index: 100;
+    text-align: left;
+    backdrop-filter: blur(5px);
+    position: relative;
+}
+
+.close-disclaimer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-disclaimer:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.disclaimer p:first-child {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.disclaimer p {
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+}
+
+.verification-guide {
+    background: #222;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.verification-guide h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.verification-guide ul {
+    list-style: none;
+}
+
+.verification-guide li {
+    color: #fff;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group small {
+    display: block;
+    color: #888;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.find-card {
+    position: relative;
+}
+
+.find-card .verification-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--primary-color);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 } 
